@@ -1,238 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Public Complaint Tracker</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* 🔥 ANIMATED BACKGROUND */
-body {
-  background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
-  background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
-  min-height: 100vh;
-}
-
-@keyframes gradientBG {
-  0% { background-position: 0%; }
-  50% { background-position: 100%; }
-  100% { background-position: 0%; }
-}
-
-/* HEADER */
-header {
-  text-align: center;
-  padding: 20px;
-  font-size: 26px;
-  color: white;
-  font-weight: 600;
-}
-
-/* CONTAINER */
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
-/* 🔥 3D CARD */
-.card {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  padding: 25px;
-  margin-bottom: 25px;
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.3),
-    inset 0 0 10px rgba(255,255,255,0.2);
-  color: white;
-  transition: 0.4s;
-}
-
-.card:hover {
-  transform: translateY(-10px) scale(1.02);
-}
-
-/* INPUTS */
-input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  transition: 0.3s;
-}
-
-input:focus, textarea:focus, select:focus {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px #00c6ff;
-}
-
-/* 🔥 3D BUTTON */
-button {
-  background: linear-gradient(145deg, #0072ff, #00c6ff);
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 5px 5px 15px #0a1f44,
-              -5px -5px 15px #3a6edc;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-button:active {
-  transform: scale(0.95);
-}
-
-/* TABLE */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: rgba(255,255,255,0.9);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-th {
-  background: #0072ff;
-  color: white;
-}
-
-td, th {
-  padding: 12px;
-}
-
-tr:nth-child(even) {
-  background: #f2f2f2;
-}
-
-/* STATUS */
-.Pending { color: orange; font-weight: bold; }
-.Resolved { color: green; font-weight: bold; }
-
-/* DELETE BUTTON */
-.del-btn {
-  background: red;
-}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{min-height:100vh;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);font-family:'Segoe UI',sans-serif;color:#fff;}
+  .stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+  .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle 3s infinite alternate;}
+  @keyframes twinkle{0%{opacity:0.2;}100%{opacity:1;}}
+  header{position:relative;z-index:10;padding:24px 40px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);box-shadow:0 4px 30px rgba(0,0,0,0.3);}
+  .header-icon{width:44px;height:44px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 20px rgba(102,126,234,0.5);}
+  header h1{font-size:22px;font-weight:700;letter-spacing:0.5px;background:linear-gradient(90deg,#fff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  header p{font-size:13px;color:rgba(255,255,255,0.5);margin-top:2px;}
+  .container{position:relative;z-index:10;max-width:960px;margin:40px auto;padding:0 20px;display:grid;gap:28px;}
+  .glass-card{background:rgba(255,255,255,0.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.15);}
+  .card-title{font-size:17px;font-weight:600;margin-bottom:22px;display:flex;align-items:center;gap:10px;color:#e2d9f3;}
+  .card-title::before{content:'';width:4px;height:20px;border-radius:4px;background:linear-gradient(180deg,#667eea,#764ba2);}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-group{display:flex;flex-direction:column;gap:7px;}
+  .form-group.full{grid-column:1/-1;}
+  label{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.8px;}
+  input,select,textarea{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:11px 14px;font-size:14px;color:#fff;outline:none;transition:all 0.25s;font-family:inherit;}
+  input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.3);}
+  input:focus,select:focus,textarea:focus{border-color:rgba(102,126,234,0.7);background:rgba(102,126,234,0.1);box-shadow:0 0 0 3px rgba(102,126,234,0.15);}
+  select option{background:#302b63;color:#fff;}
+  textarea{resize:vertical;min-height:90px;}
+  .btn-submit{background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:12px;padding:13px 28px;font-size:14px;font-weight:700;color:#fff;cursor:pointer;transition:all 0.3s;letter-spacing:0.5px;box-shadow:0 8px 25px rgba(102,126,234,0.4);margin-top:6px;}
+  .btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(102,126,234,0.6);}
+  .btn-submit:active{transform:translateY(0);}
+  .msg{margin-top:12px;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:500;display:none;}
+  .msg.success{background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#86efac;}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:6px;}
+  .stat-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 20px;text-align:center;}
+  .stat-num{font-size:28px;font-weight:700;line-height:1;}
+  .stat-label{font-size:12px;color:rgba(255,255,255,0.45);margin-top:5px;text-transform:uppercase;letter-spacing:0.7px;}
+  .stat-card.all .stat-num{background:linear-gradient(135deg,#667eea,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .stat-card.pending .stat-num{color:#fbbf24;}
+  .stat-card.resolved .stat-num{color:#34d399;}
+  .search-row{display:flex;gap:12px;margin-bottom:18px;}
+  .search-row input{flex:1;}
+  .search-row select{width:180px;}
+  .complaint-list{display:flex;flex-direction:column;gap:12px;}
+  .complaint-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;transition:all 0.25s;position:relative;overflow:hidden;}
+  .complaint-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
+  .complaint-item.pending::before{background:#fbbf24;}
+  .complaint-item.inprogress::before{background:#60a5fa;}
+  .complaint-item.resolved::before{background:#34d399;}
+  .complaint-item:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15);transform:translateY(-1px);}
+  .ci-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .ci-meta{display:flex;align-items:center;gap:10px;}
+  .ci-id{font-size:11px;background:rgba(255,255,255,0.1);border-radius:6px;padding:2px 8px;color:rgba(255,255,255,0.5);font-weight:600;}
+  .ci-name{font-size:14px;font-weight:600;color:#e2d9f3;}
+  .ci-cat{font-size:12px;background:rgba(102,126,234,0.2);color:#a78bfa;border-radius:20px;padding:3px 10px;border:1px solid rgba(102,126,234,0.3);}
+  .ci-desc{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:12px;}
+  .ci-bottom{display:flex;align-items:center;justify-content:space-between;}
+  .ci-date{font-size:11px;color:rgba(255,255,255,0.3);}
+  .ci-actions{display:flex;align-items:center;gap:8px;}
+  .status-select{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 10px;font-size:12px;color:#fff;cursor:pointer;outline:none;}
+  .btn-del{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:5px 12px;font-size:12px;color:#fca5a5;cursor:pointer;transition:all 0.2s;}
+  .btn-del:hover{background:rgba(239,68,68,0.3);}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+  .badge.pending{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);}
+  .badge.inprogress{background:rgba(96,165,250,0.15);color:#60a5fa;border:1px solid rgba(96,165,250,0.3);}
+  .badge.resolved{background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);}
+  .empty{text-align:center;padding:40px;color:rgba(255,255,255,0.3);font-size:14px;}
+  @media(max-width:600px){.form-grid{grid-template-columns:1fr;}.stats-row{grid-template-columns:1fr 1fr 1fr;}.search-row{flex-direction:column;}.search-row select{width:100%;}}
 </style>
 </head>
-
 <body>
+<div class="stars" id="stars"></div>
 
-<header>🚀 Public Complaint Tracking System</header>
+<header>
+  <div class="header-icon">📋</div>
+  <div>
+    <h1>Public Complaint Tracking System</h1>
+    <p>Report, track and resolve public issues</p>
+  </div>
+</header>
 
 <div class="container">
 
-<div class="card">
-<h2>Submit Complaint</h2>
+  <div class="glass-card">
+    <div class="card-title">Submit a Complaint</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input id="name" placeholder="Enter your name"/>
+      </div>
+      <div class="form-group">
+        <label>Email (optional)</label>
+        <input id="email" type="email" placeholder="your@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="category">
+          <option value="">-- Select Category</option>
+          <option>Roads & Infrastructure</option>
+          <option>Water Supply</option>
+          <option>Electricity</option>
+          <option>Sanitation</option>
+          <option>Public Safety</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="priority">
+          <option value="Normal">Normal</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Description *</label>
+        <textarea id="description" placeholder="Describe your complaint in detail..."></textarea>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="submitComplaint()">+ Submit Complaint</button>
+    <div class="msg" id="msg"></div>
+  </div>
 
-<input id="name" placeholder="Your Name">
-<input id="email" placeholder="Your Email">
+  <div class="stats-row">
+    <div class="stat-card all"><div class="stat-num" id="s-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat-card pending"><div class="stat-num" id="s-pending">0</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card resolved"><div class="stat-num" id="s-resolved">0</div><div class="stat-label">Resolved</div></div>
+  </div>
 
-<select id="category">
-<option>Electricity</option>
-<option>Water</option>
-<option>Roads</option>
-<option>Sanitation</option>
-</select>
-
-<textarea id="description" placeholder="Describe your complaint"></textarea>
-
-<button onclick="submitComplaint()">Submit Complaint</button>
-<p id="msg"></p>
-
-</div>
-
-<div class="card">
-<h2>All Complaints</h2>
-
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Category</th>
-<th>Description</th>
-<th>Status</th>
-<th>Date</th>
-<th>Action</th>
-</tr>
-</thead>
-
-<tbody id="complaintsTable"></tbody>
-
-</table>
-
-</div>
+  <div class="glass-card">
+    <div class="card-title">All Complaints</div>
+    <div class="search-row">
+      <input id="search" placeholder="Search by name or description..." oninput="renderComplaints()"/>
+      <select id="filterStatus" onchange="renderComplaints()">
+        <option value="">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+    </div>
+    <div class="complaint-list" id="list"></div>
+  </div>
 
 </div>
 
 <script>
-
-const BASE = "https://complaint-tracker-14fk.onrender.com";
-
-async function loadComplaints(){
-  const res = await fetch(BASE + "/api/complaints");
-  const data = await res.json();
-
-  document.getElementById("complaintsTable").innerHTML =
-  data.map(c => `
-    <tr>
-      <td>${c.id}</td>
-      <td>${c.name}</td>
-      <td>${c.category}</td>
-      <td>${c.description}</td>
-      <td class="${c.status.replace(' ', '')}">${c.status}</td>
-      <td>${new Date(c.created_at).toLocaleDateString()}</td>
-      <td>
-        <button class="del-btn" onclick="deleteComplaint(${c.id})">Delete</button>
-      </td>
-    </tr>
-  `).join("");
+async function loadComplaints() {
+  const res = await fetch('/api/complaints');
+  return await res.json();
 }
 
-async function submitComplaint(){
-  const body = {
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    category: document.getElementById("category").value,
-    description: document.getElementById("description").value
-  };
+async function renderComplaints() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const filter = document.getElementById('filterStatus').value;
+  const complaints = await loadComplaints();
 
-  await fetch(BASE + "/api/complaints", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify(body)
+  let list = complaints.filter(c => {
+    const matchSearch = !search || c.name.toLowerCase().includes(search) || c.description.toLowerCase().includes(search);
+    const matchStatus = !filter || c.status === filter;
+    return matchSearch && matchStatus;
   });
 
-  document.getElementById("msg").innerText = "✅ Complaint Added";
+  document.getElementById('s-total').textContent = complaints.length;
+  document.getElementById('s-pending').textContent = complaints.filter(c => c.status === 'Pending').length;
+  document.getElementById('s-resolved').textContent = complaints.filter(c => c.status === 'Resolved').length;
 
-  loadComplaints();
+  const el = document.getElementById('list');
+  if (!list.length) { el.innerHTML = '<div class="empty">No complaints found.</div>'; return; }
+
+  el.innerHTML = list.map(c => `
+    <div class="complaint-item ${statusClass(c.status)}">
+      <div class="ci-top">
+        <div class="ci-meta">
+          <span class="ci-id">#${c.id}</span>
+          <span class="ci-name">${c.name}</span>
+          <span class="ci-cat">${c.category}</span>
+        </div>
+        <span class="badge ${statusClass(c.status)}">${c.status}</span>
+      </div>
+      <div class="ci-desc">${c.description.substring(0, 120)}${c.description.length > 120 ? '...' : ''}</div>
+      <div class="ci-bottom">
+        <span class="ci-date">📅 ${new Date(c.created_at).toLocaleDateString('en-IN')}${c.email ? ' · ' + c.email : ''}</span>
+        <div class="ci-actions">
+          <select class="status-select" onchange="updateStatus(${c.id}, this.value)">
+            <option ${c.status==='Pending'?'selected':''}>Pending</option>
+            <option ${c.status==='In Progress'?'selected':''}>In Progress</option>
+            <option ${c.status==='Resolved'?'selected':''}>Resolved</option>
+          </select>
+          <button class="btn-del" onclick="deleteComplaint(${c.id})">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
-async function deleteComplaint(id){
-  await fetch(BASE + "/api/complaints/" + id, {method:"DELETE"});
-  loadComplaints();
+function statusClass(s) {
+  if (s === 'Pending') return 'pending';
+  if (s === 'In Progress') return 'inprogress';
+  if (s === 'Resolved') return 'resolved';
+  return '';
 }
 
-loadComplaints();
+async function submitComplaint() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const category = document.getElementById('category').value;
+  const description = document.getElementById('description').value.trim();
+  const msg = document.getElementById('msg');
 
+  if (!name || !category || !description) {
+    msg.style.display = 'block';
+    msg.style.background = 'rgba(239,68,68,0.15)';
+    msg.style.border = '1px solid rgba(239,68,68,0.3)';
+    msg.style.color = '#fca5a5';
+    msg.textContent = '⚠ Please fill in all required fields.';
+    return;
+  }
+
+  const res = await fetch('/api/complaints', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, category, description })
+  });
+  const data = await res.json();
+
+  msg.style.display = 'block';
+  msg.style.background = 'rgba(34,197,94,0.15)';
+  msg.style.border = '1px solid rgba(34,197,94,0.3)';
+  msg.style.color = '#86efac';
+  msg.textContent = '✅ ' + data.message;
+
+  ['name','email','description'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('category').value = '';
+  renderComplaints();
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+
+async function updateStatus(id, status) {
+  await fetch(`/api/complaints/${id}/status`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+  renderComplaints();
+}
+
+async function deleteComplaint(id) {
+  if (!confirm('Delete this complaint?')) return;
+  await fetch(`/api/complaints/${id}`, { method: 'DELETE' });
+  renderComplaints();
+}
+
+(function makeStars() {
+  const s = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const d = document.createElement('div');
+    d.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    d.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;opacity:${Math.random()*0.6+0.1};animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*3}s;`;
+    s.appendChild(d);
+  }
+})();
+
+renderComplaints();
 </script>
-
 </body>
 </html>
