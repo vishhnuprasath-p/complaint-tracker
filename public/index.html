@@ -14,56 +14,98 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* 🔥 ANIMATED BACKGROUND */
 body {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
   min-height: 100vh;
 }
 
+@keyframes gradientBG {
+  0% { background-position: 0%; }
+  50% { background-position: 100%; }
+  100% { background-position: 0%; }
+}
+
+/* HEADER */
 header {
   text-align: center;
   padding: 20px;
-  font-size: 24px;
+  font-size: 26px;
   color: white;
+  font-weight: 600;
 }
 
+/* CONTAINER */
 .container {
   max-width: 900px;
   margin: auto;
   padding: 20px;
 }
 
+/* 🔥 3D CARD */
 .card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
   padding: 25px;
   margin-bottom: 25px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.3),
+    inset 0 0 10px rgba(255,255,255,0.2);
   color: white;
+  transition: 0.4s;
 }
 
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+
+/* INPUTS */
 input, textarea, select {
   width: 100%;
   padding: 12px;
   margin-bottom: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
+  outline: none;
+  transition: 0.3s;
 }
 
+input:focus, textarea:focus, select:focus {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px #00c6ff;
+}
+
+/* 🔥 3D BUTTON */
 button {
-  background: linear-gradient(to right, #0072ff, #00c6ff);
+  background: linear-gradient(145deg, #0072ff, #00c6ff);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 12px 18px;
+  border-radius: 10px;
   cursor: pointer;
+  box-shadow: 5px 5px 15px #0a1f44,
+              -5px -5px 15px #3a6edc;
+  transition: 0.3s;
 }
 
+button:hover {
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* TABLE */
 table {
   width: 100%;
-  background: white;
-  color: black;
-  border-radius: 10px;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 th {
@@ -72,9 +114,18 @@ th {
 }
 
 td, th {
-  padding: 10px;
+  padding: 12px;
 }
 
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+/* STATUS */
+.Pending { color: orange; font-weight: bold; }
+.Resolved { color: green; font-weight: bold; }
+
+/* DELETE BUTTON */
 .del-btn {
   background: red;
 }
@@ -89,27 +140,44 @@ td, th {
 
 <div class="card">
 <h2>Submit Complaint</h2>
-<input id="name" placeholder="Name">
-<input id="email" placeholder="Email">
+
+<input id="name" placeholder="Your Name">
+<input id="email" placeholder="Your Email">
+
 <select id="category">
 <option>Electricity</option>
 <option>Water</option>
+<option>Roads</option>
+<option>Sanitation</option>
 </select>
-<textarea id="description"></textarea>
-<button onclick="submitComplaint()">Submit</button>
+
+<textarea id="description" placeholder="Describe your complaint"></textarea>
+
+<button onclick="submitComplaint()">Submit Complaint</button>
 <p id="msg"></p>
+
 </div>
 
 <div class="card">
-<h2>Complaints</h2>
+<h2>All Complaints</h2>
+
 <table>
 <thead>
 <tr>
-<th>ID</th><th>Name</th><th>Category</th><th>Desc</th><th>Action</th>
+<th>ID</th>
+<th>Name</th>
+<th>Category</th>
+<th>Description</th>
+<th>Status</th>
+<th>Date</th>
+<th>Action</th>
 </tr>
 </thead>
+
 <tbody id="complaintsTable"></tbody>
+
 </table>
+
 </div>
 
 </div>
@@ -129,7 +197,11 @@ async function loadComplaints(){
       <td>${c.name}</td>
       <td>${c.category}</td>
       <td>${c.description}</td>
-      <td><button onclick="deleteComplaint(${c.id})">Delete</button></td>
+      <td class="${c.status.replace(' ', '')}">${c.status}</td>
+      <td>${new Date(c.created_at).toLocaleDateString()}</td>
+      <td>
+        <button class="del-btn" onclick="deleteComplaint(${c.id})">Delete</button>
+      </td>
     </tr>
   `).join("");
 }
@@ -148,7 +220,7 @@ async function submitComplaint(){
     body: JSON.stringify(body)
   });
 
-  document.getElementById("msg").innerText = "Added ✅";
+  document.getElementById("msg").innerText = "✅ Complaint Added";
 
   loadComplaints();
 }
