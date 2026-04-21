@@ -1,122 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Public Complaint Tracker</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, sans-serif; background: #f0f2f5; }
-    header { background: #1a73e8; color: white; padding: 16px 32px; font-size: 22px; font-weight: bold; }
-    .container { max-width: 900px; margin: 30px auto; padding: 0 16px; }
-    .card { background: white; border-radius: 8px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    h2 { margin-bottom: 16px; color: #333; }
-    input, textarea, select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-    button { background: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    button:hover { background: #1558b0; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid #eee; text-align: left; }
-    th { background: #f5f5f5; font-weight: bold; }
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-    .Pending { background: #fff3cd; color: #856404; }
-    .In.Progress { background: #cce5ff; color: #004085; }
-    .Resolved { background: #d4edda; color: #155724; }
-    select.status-select { width: auto; padding: 4px 8px; margin: 0; }
-    .del-btn { background: #dc3545; padding: 4px 10px; font-size: 12px; }
-    .del-btn:hover { background: #a71d2a; }
-  </style>
+<meta charset="UTF-8">
+<title>Public Complaint Tracker</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 100vh;
+  color: #333;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 20px;
+  font-size: 24px;
+  color: white;
+  font-weight: 600;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  color: white;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+/* INPUTS */
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* BUTTON */
+button {
+  background: #00c6ff;
+  background: linear-gradient(to right, #0072ff, #00c6ff);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  color: black;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background: #0072ff;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+/* STATUS COLORS */
+.Pending { color: orange; font-weight: bold; }
+.Resolved { color: green; font-weight: bold; }
+.In\ Progress { color: blue; font-weight: bold; }
+
+/* DELETE BUTTON */
+.del-btn {
+  background: red;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+</style>
 </head>
+
 <body>
-  <header>📋 Public Complaint Tracking System</header>
-  <div class="container">
 
-    <!-- Submit Form -->
-    <div class="card">
-      <h2>Submit a Complaint</h2>
-      <input id="name" placeholder="Your Name *" />
-      <input id="email" placeholder="Your Email (optional)" />
-      <select id="category">
-        <option value="">-- Select Category *</option>
-        <option>Roads & Infrastructure</option>
-        <option>Water Supply</option>
-        <option>Electricity</option>
-        <option>Sanitation</option>
-        <option>Public Safety</option>
-        <option>Other</option>
-      </select>
-      <textarea id="description" rows="4" placeholder="Describe your complaint *"></textarea>
-      <button onclick="submitComplaint()">Submit Complaint</button>
-      <p id="msg" style="margin-top:10px;color:green;"></p>
-    </div>
+<header>🚀 Public Complaint Tracking System</header>
 
-    <!-- Complaints Table -->
-    <div class="card">
-      <h2>All Complaints</h2>
-      <table>
-        <thead>
-          <tr><th>ID</th><th>Name</th><th>Category</th><th>Description</th><th>Status</th><th>Date</th><th>Action</th></tr>
-        </thead>
-        <tbody id="complaintsTable"></tbody>
-      </table>
-    </div>
+<div class="container">
+
+  <!-- FORM -->
+  <div class="card">
+    <h2>Submit a Complaint</h2>
+    <input id="name" placeholder="Your Name *">
+    <input id="email" placeholder="Your Email">
+    <select id="category">
+      <option value="">Select Category</option>
+      <option>Electricity</option>
+      <option>Water</option>
+      <option>Roads</option>
+      <option>Sanitation</option>
+    </select>
+    <textarea id="description" placeholder="Describe your complaint"></textarea>
+    <button onclick="submitComplaint()">Submit Complaint</button>
+    <p id="msg"></p>
   </div>
 
-  <script>
-    async function loadComplaints() {
-      const res = await fetch('/api/complaints');
-      const data = await res.json();
-      const tbody = document.getElementById('complaintsTable');
-      tbody.innerHTML = data.map(c => `
+  <!-- TABLE -->
+  <div class="card">
+    <h2>All Complaints</h2>
+    <table>
+      <thead>
         <tr>
-          <td>${c.id}</td>
-          <td>${c.name}</td>
-          <td>${c.category}</td>
-          <td>${c.description.substring(0, 60)}...</td>
-          <td>
-            <select class="status-select" onchange="updateStatus(${c.id}, this.value)">
-              ${['Pending','In Progress','Resolved'].map(s =>
-                `<option ${c.status===s?'selected':''}>${s}</option>`
-              ).join('')}
-            </select>
-          </td>
-          <td>${new Date(c.created_at).toLocaleDateString()}</td>
-          <td><button class="del-btn" onclick="deleteComplaint(${c.id})">Delete</button></td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Action</th>
         </tr>
-      `).join('');
-    }
+      </thead>
+      <tbody id="complaintsTable"></tbody>
+    </table>
+  </div>
 
-    async function submitComplaint() {
-      const body = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        category: document.getElementById('category').value,
-        description: document.getElementById('description').value
-      };
-      if (!body.name || !body.category || !body.description)
-        return alert('Please fill in required fields!');
-      const res = await fetch('/api/complaints', {
-        method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body)
-      });
-      const data = await res.json();
-      document.getElementById('msg').textContent = '✅ ' + data.message;
-      ['name','email','description'].forEach(id => document.getElementById(id).value='');
-      document.getElementById('category').value='';
-      loadComplaints();
-    }
+</div>
 
-    async function updateStatus(id, status) {
-      await fetch(`/api/complaints/${id}/status`, {
-        method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({status})
-      });
-      loadComplaints();
-    }
+<script>
+async function loadComplaints() {
+  const res = await fetch('/api/complaints');
+  const data = await res.json();
 
-    async function deleteComplaint(id) {
-      if (!confirm('Delete this complaint?')) return;
-      await fetch(`/api/complaints/${id}`, { method: 'DELETE' });
-      loadComplaints();
-    }
+  const tbody = document.getElementById('complaintsTable');
+  tbody.innerHTML = data.map(c => `
+    <tr>
+      <td>${c.id}</td>
+      <td>${c.name}</td>
+      <td>${c.category}</td>
+      <td>${c.description}</td>
+      <td class="${c.status.replace(' ','\\ ')}">${c.status}</td>
+      <td>${new Date(c.created_at).toLocaleDateString()}</td>
+      <td>
+        <button class="del-btn" onclick="deleteComplaint(${c.id})">Delete</button>
+      </td>
+    </tr>
+  `).join('');
+}
 
-    loadComplaints();
-  </script>
+async function submitComplaint() {
+  const body = {
+    name: name.value,
+    email: email.value,
+    category: category.value,
+    description: description.value
+  };
+
+  await fetch('/api/complaints', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+
+  msg.textContent = "✅ Complaint Added";
+  loadComplaints();
+}
+
+async function deleteComplaint(id) {
+  await fetch(`/api/complaints/${id}`, { method: 'DELETE' });
+  loadComplaints();
+}
+
+loadComplaints();
+</script>
+
 </body>
 </html>
