@@ -7,20 +7,23 @@
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-body {
-  background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
-  background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
-}
-
-@keyframes gradientBG {
-  0% {background-position: 0%;}
-  50% {background-position: 100%;}
-  100% {background-position: 0%;}
-} 
 
 <style>
 * {
+
+body {
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0%; }
+      50% { background-position: 100%; }
+      100% { background-position: 0%; }
+    }
+
+    /* your 3D CSS also here */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -240,14 +243,16 @@ async function submitComplaint() {
   };
 
   await fetch('/api/complaints', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body)
-  });
-
-  msg.textContent = "✅ Complaint Added";
-  loadComplaints();
-}
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(() => {
+  document.getElementById("msg").innerText = "Complaint Added";
+  
+  loadComplaints();  // 🔥 VERY IMPORTANT
+});
 
 async function deleteComplaint(id) {
   await fetch(`/api/complaints/${id}`, { method: 'DELETE' });
